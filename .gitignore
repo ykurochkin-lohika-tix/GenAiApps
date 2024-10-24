@@ -1,0 +1,11 @@
+# Ignore appsettings.json file in Infrastructure
+AskGenAi.Infrastructure/appsettings.json
+
+# Ignore everything inside the Resources folder in Infrastructure
+AskGenAi.Infrastructure/Resources/*
+
+# Other common ignores for C# projects (optional)
+bin/
+obj/
+*.user
+*.vs/
