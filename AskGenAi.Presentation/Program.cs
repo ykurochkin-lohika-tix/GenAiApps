@@ -1,22 +1,18 @@
-﻿using AskGenAi.Application.Services;
-using AskGenAi.Application.UseCases;
-using AskGenAi.Core.Entities;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+using AskGenAi.Application;
+using AskGenAi.Common;
 using AskGenAi.Core.Interfaces;
-using AskGenAi.Infrastructure.AIServices;
-using AskGenAi.Infrastructure.FileSystem;
-using AskGenAi.Infrastructure.Persistence;
+using AskGenAi.Infrastructure;
 
-IFilePath filePath = new FilePath();
-IClassNormalizerService classNormalizerService =
-    new ClassNormalizerService(new FileRepository<Question>(filePath.GetLocalQuestionsFullPath()), filePath);
-//await classNormalizerService.NormalizeQuestionsAsync();
+var serviceProvider = new ServiceCollection()
+    .AddApplicationServices()
+    .AddCommonServices()
+    .AddInfrastructureServices()
+    .BuildServiceProvider();
 
-IResponseAiGenerator responseAiGenerator = new ResponseAiGenerator(
-    new AzureOpenAiChatCompletion(),
-    new HistoryBuilder(),
-    new FileRepository<Discipline>(filePath.GetLocalDisciplinesFullPath()),
-    new FileRepository<Question>(filePath.GetLocalQuestionsFullPath()),
-    new FileRepository<Response>(filePath.GetLocalResponsesFullPath())
-);
+var classNormalizerService = serviceProvider.GetRequiredService<IClassNormalizerService>();
+//await classNormalizerService.NormalizeQuestionAsync();
 
+var responseAiGenerator = serviceProvider.GetRequiredService<IResponseAiGenerator>();
 await responseAiGenerator.RunAsync();

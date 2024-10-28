@@ -1,4 +1,5 @@
-﻿using AskGenAi.Core.Interfaces;
+﻿using AskGenAi.Core.Entities;
+using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Infrastructure.FileSystem;
 
@@ -26,6 +27,18 @@ public class FilePath : IFilePath
             "questions21", "questions22", "questions23",
             "questions31", "questions32"
         ];
+    }
+
+    // </inheritdoc>
+    public string GetLocalFullPathByType(Type type)
+    {
+        return type switch
+        {
+            not null when type == typeof(Question) => GetLocalQuestionsFullPath(),
+            not null when type == typeof(Discipline) => GetLocalDisciplinesFullPath(),
+            not null when type == typeof(Response) => GetLocalResponsesFullPath(),
+            _ => string.Empty
+        };
     }
 
     // </inheritdoc>

@@ -60,4 +60,11 @@ public interface IFilePath
     /// </summary>
     /// <returns></returns>
     string[] GetQuestionsListFilename();
+
+    /// <summary>
+    /// Gets the local full path by type
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    string GetLocalFullPathByType(Type type);
 }
