@@ -1,21 +1,20 @@
-﻿using AskGenAi.Common.Services;
-using AskGenAi.Core.Entities;
+﻿using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Application.UseCases;
 
 // </inheritdoc>
-public class ClassNormalizerService(IRepository<Question> questionRepository, IFilePath filePath) : IClassNormalizerService
+public class ClassNormalizerService(
+    IRepository<Question> questionRepository,
+    IFilePath filePath,
+    IJsonFileSerializer<Discipline> disciplineFileSerializer,
+    IJsonFileSerializer<Question> questionFileSerializer) : IClassNormalizerService
 {
-    // it is used like composition for the file repository
-    private readonly IJsonFileSerializer<Discipline> _disciplineFileSerializer = new JsonFileSerializer<Discipline>();
-    private readonly IJsonFileSerializer<Question> _questionFileSerializer = new JsonFileSerializer<Question>();
-
     // </inheritdoc>
     public async Task NormalizeDisciplineAsync()
     {
         var normalizeEntities =
-            await _disciplineFileSerializer.DeserializeAsync(filePath.GetLocalDisciplinePath());
+            await disciplineFileSerializer.DeserializeAsync(filePath.GetLocalDisciplinePath());
 
         if (normalizeEntities is null || normalizeEntities.Data.Count == 0)
         {
@@ -34,7 +33,7 @@ public class ClassNormalizerService(IRepository<Question> questionRepository, IF
 
         var newDisciplinePath = filePath.GetLocalNewDisciplinePath(newVersion);
         var serializedEntities =
-            await _disciplineFileSerializer.SerializeAsync(normalizeEntities, newDisciplinePath);
+            await disciplineFileSerializer.SerializeAsync(normalizeEntities, newDisciplinePath);
 
         Console.WriteLine("Saved content :\n" + serializedEntities + "\nFile Path: " + newDisciplinePath);
     }
@@ -42,7 +41,7 @@ public class ClassNormalizerService(IRepository<Question> questionRepository, IF
     // </inheritdoc>
     public async Task NormalizeQuestionAsync()
     {
-        var normalizeEntities = await _questionFileSerializer.DeserializeAsync(filePath.GetLocalQuestionsPath());
+        var normalizeEntities = await questionFileSerializer.DeserializeAsync(filePath.GetLocalQuestionsPath());
 
         if (normalizeEntities is null || normalizeEntities.Data.Count == 0)
         {
@@ -61,7 +60,7 @@ public class ClassNormalizerService(IRepository<Question> questionRepository, IF
 
         var newQuestionsPath = filePath.GetLocalNewQuestionsPath(newVersion);
         var serializedEntities =
-            await _questionFileSerializer.SerializeAsync(normalizeEntities, newQuestionsPath);
+            await questionFileSerializer.SerializeAsync(normalizeEntities, newQuestionsPath);
 
         Console.WriteLine("Saved content :\n" + serializedEntities + "\nFile Path: " + newQuestionsPath);
     }
@@ -91,7 +90,7 @@ public class ClassNormalizerService(IRepository<Question> questionRepository, IF
 
         var questionsFullPath = filePath.GetLocalQuestionsFullPath();
         var serializedEntities =
-            await _questionFileSerializer.SerializeAsync(normalizeEntitiesFull, questionsFullPath);
+            await questionFileSerializer.SerializeAsync(normalizeEntitiesFull, questionsFullPath);
 
         Console.WriteLine("Saved content :\n" + serializedEntities + "\nFile Path: " + questionsFullPath);
         Console.WriteLine("Total saved items " + normalizeEntitiesFull.Data.Count);
@@ -100,7 +99,7 @@ public class ClassNormalizerService(IRepository<Question> questionRepository, IF
     private async Task<IEnumerable<Question>> NormalizeQuestionAsync(string questionsFilename)
     {
         var normalizeEntities =
-            await _questionFileSerializer.DeserializeAsync(filePath.GetLocalQuestionsPath(questionsFilename));
+            await questionFileSerializer.DeserializeAsync(filePath.GetLocalQuestionsPath(questionsFilename));
 
         if (normalizeEntities is null || normalizeEntities.Data.Count == 0)
         {

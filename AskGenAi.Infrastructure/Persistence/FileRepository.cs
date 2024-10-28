@@ -1,5 +1,4 @@
-﻿using AskGenAi.Common.Services;
-using AskGenAi.Core.Entities;
+﻿using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Infrastructure.Persistence;
@@ -9,15 +8,16 @@ namespace AskGenAi.Infrastructure.Persistence;
 public class FileRepository<T> : IRepository<T> where T : IEntity
 {
     // it is used like composition for the file repository
-    private readonly IJsonFileSerializer<T> _jsonFileSerializer = new JsonFileSerializer<T>();
+    private readonly IJsonFileSerializer<T> _jsonFileSerializer;
 
     private readonly string _filePath;
     private readonly List<T> _entities;
     private readonly string _version;
     
-    public FileRepository(string filePath)
+    public FileRepository(IJsonFileSerializer<T> jsonFileSerializer, IFilePath filePathService)
     {
-        _filePath = filePath;
+        _jsonFileSerializer = jsonFileSerializer;
+        _filePath = filePathService.GetLocalFullPathByType(typeof(T));
         _entities = new List<T>();
         _version = string.Empty;
 
