@@ -10,9 +10,12 @@ public class ResponseAiGenerator(
     IHistoryBuilder historyBuilder,
     IRepository<Discipline> disciplineRepository,
     IRepository<Question> questionRepository,
-    IRepository<Response> responseRepository)
+    IRepository<Response> responseRepository,
+    TimeSpan? delayDuration = null)
     : IResponseAiGenerator
 {
+    private readonly TimeSpan _delayDuration = delayDuration ?? TimeSpan.FromSeconds(30);
+    
     // </inheritdoc>
     public async Task RunAsync()
     {
@@ -41,7 +44,7 @@ public class ResponseAiGenerator(
             foreach (var question in questionsForDiscipline)
             {
                 // If the response to the question already exists, skip it
-                if (responses.Any(r => r.QuestionId == question.Id))
+                if (Array.Exists(responses, r => r.QuestionId == question.Id))
                 {
                     continue;
                 }
@@ -60,7 +63,7 @@ public class ResponseAiGenerator(
                 });
 
                 // make calls to the chat completion service to get the response with some delay 40 sec between each question
-                await Task.Delay(TimeSpan.FromSeconds(30));
+                await Task.Delay(_delayDuration);
             }
         }
     }
