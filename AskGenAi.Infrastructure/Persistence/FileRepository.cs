@@ -11,14 +11,13 @@ public class FileRepository<T> : IRepository<T> where T : IEntity
     private readonly IJsonFileSerializer<T> _jsonFileSerializer;
 
     private readonly string _filePath;
-    private readonly List<T> _entities;
+    private readonly List<T> _entities = [];
     private readonly string _version;
     
     public FileRepository(IJsonFileSerializer<T> jsonFileSerializer, IFilePath filePathService)
     {
         _jsonFileSerializer = jsonFileSerializer;
         _filePath = filePathService.GetLocalFullPathByType(typeof(T));
-        _entities = new List<T>();
         _version = string.Empty;
 
         if (!File.Exists(_filePath))

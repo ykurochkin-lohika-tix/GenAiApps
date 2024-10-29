@@ -79,7 +79,7 @@ public class ClassNormalizerService(
             var normalizeEntities = await NormalizeQuestionAsync(questionsFilename);
 
             var enumerable = normalizeEntities as Question[] ?? normalizeEntities.ToArray();
-            if (!enumerable.Any())
+            if (enumerable.Length == 0) 
             {
                 Console.WriteLine("No" + nameof(Question) + "classes found");
                 continue;

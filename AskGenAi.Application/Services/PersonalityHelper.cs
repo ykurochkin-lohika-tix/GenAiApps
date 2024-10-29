@@ -5,7 +5,7 @@ namespace AskGenAi.Application.Services;
 /// <summary>
 /// Represents a helper class that provides personality-related functionality , but make a table for the switch statement
 /// </summary>
-public class PersonalityHelper
+public static class PersonalityHelper
 {
     private const string DetNetDeveloper = ".Net C# developer";
     private const string Default = "Developer";

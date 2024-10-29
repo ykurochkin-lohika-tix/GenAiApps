@@ -71,15 +71,15 @@ public class FilePath : IFilePath
     }
 
     // </inheritdoc>
-    public string GetLocalQuestionsPath()
-    {
-        return Path.Combine(LocalPath, FilesPath, QuestionsFilename + Extension);
-    }
-
-    // </inheritdoc>
     public string GetLocalNewQuestionsPath(string newVersion)
     {
         return Path.Combine(LocalPath, FilesPath, QuestionsFilename + "V" + newVersion + Extension);
+    }
+
+    // </inheritdoc>
+    public string GetLocalQuestionsPath()
+    {
+        return Path.Combine(LocalPath, FilesPath, QuestionsFilename + Extension);
     }
 
     // </inheritdoc>
