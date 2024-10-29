@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IChatModelManager, AzureOpenAiChatCompletion>();
 
         services.AddSingleton<IFilePath, FilePath>();
+        services.AddSingleton<IFileSystem, FileSystem.FileSystem>();
 
         services.AddScoped(typeof(IRepository<>), typeof(FileRepository<>));
         //services.AddScoped(typeof(IRepository<>), typeof(InMemoryRepository<>));
