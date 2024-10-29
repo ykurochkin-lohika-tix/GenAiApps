@@ -23,6 +23,9 @@ public class FileRepositoryTests
         Mock<IFilePath> mockFilePathService = new();
         mockFilePathService.Setup(x => x.GetLocalFullPathByType(It.IsAny<Type>())).Returns(TestFilePath);
 
+        Mock<IFileSystem> mockFileSystem = new();
+        mockFileSystem.Setup(x => x.FileExists(TestFilePath)).Returns(true);
+        
         _entityId = _fixture.Create<Guid>();
         _entity = new Common.Services.TestEntity { Id = _entityId };
         _entities = new List<Common.Services.TestEntity> { _entity };
@@ -30,7 +33,7 @@ public class FileRepositoryTests
             .Returns(new Root<Common.Services.TestEntity> { Data = _entities });
 
         _fileRepository =
-            new FileRepository<Common.Services.TestEntity>(_mockJsonFileSerializer.Object, mockFilePathService.Object);
+            new FileRepository<Common.Services.TestEntity>(_mockJsonFileSerializer.Object, mockFilePathService.Object, mockFileSystem.Object);
     }
 
     [Fact]
