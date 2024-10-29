@@ -14,13 +14,13 @@ public class FileRepository<T> : IRepository<T> where T : IEntity
     private readonly List<T> _entities = [];
     private readonly string _version;
     
-    public FileRepository(IJsonFileSerializer<T> jsonFileSerializer, IFilePath filePathService)
+    public FileRepository(IJsonFileSerializer<T> jsonFileSerializer, IFilePath filePathService, IFileSystem fileSystem)
     {
         _jsonFileSerializer = jsonFileSerializer;
         _filePath = filePathService.GetLocalFullPathByType(typeof(T));
         _version = string.Empty;
 
-        if (!File.Exists(_filePath))
+        if (!fileSystem.FileExists(_filePath))
         {
             Console.WriteLine($"File not found: {_filePath}");
             return;
