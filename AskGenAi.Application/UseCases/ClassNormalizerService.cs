@@ -1,4 +1,5 @@
-﻿using AskGenAi.Core.Entities;
+﻿using AskGenAi.Core.Aggregators;
+using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Application.UseCases;

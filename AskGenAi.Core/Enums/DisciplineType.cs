@@ -1,4 +1,4 @@
-﻿namespace AskGenAi.Core.Entities;
+﻿namespace AskGenAi.Core.Enums;
 
 public enum DisciplineType
 {

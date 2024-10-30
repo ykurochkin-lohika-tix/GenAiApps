@@ -1,4 +1,5 @@
 using AskGenAi.Application.UseCases;
+using AskGenAi.Core.Aggregators;
 using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
 using Moq;

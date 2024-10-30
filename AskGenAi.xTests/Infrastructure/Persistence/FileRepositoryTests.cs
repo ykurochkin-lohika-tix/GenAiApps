@@ -1,4 +1,4 @@
-using AskGenAi.Core.Entities;
+using AskGenAi.Core.Aggregators;
 using AskGenAi.Core.Interfaces;
 using AskGenAi.Infrastructure.Persistence;
 using AutoFixture;

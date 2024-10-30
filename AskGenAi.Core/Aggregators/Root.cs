@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using AskGenAi.Core.Entities;
 
-namespace AskGenAi.Core.Entities;
+namespace AskGenAi.Core.Aggregators;
 
 public class Root<T> where T : IEntity
 {

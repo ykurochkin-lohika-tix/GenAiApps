@@ -1,4 +1,4 @@
-﻿using AskGenAi.Core.Entities;
+﻿using AskGenAi.Core.Enums;
 
 namespace AskGenAi.Application.Services;
 

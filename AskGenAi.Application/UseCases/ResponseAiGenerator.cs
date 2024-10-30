@@ -1,5 +1,6 @@
 ﻿using AskGenAi.Application.Services;
 using AskGenAi.Core.Entities;
+using AskGenAi.Core.Enums;
 using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Application.UseCases;
