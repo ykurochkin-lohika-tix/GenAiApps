@@ -11,18 +11,18 @@ public class ResponseAiGeneratorTests
     private readonly Fixture _fixture = new();
     private readonly Mock<IChatModelManager> _mockChatModelManager;
     private readonly Mock<IHistoryBuilder> _mockHistoryBuilder;
-    private readonly Mock<IRepository<Discipline>> _mockDisciplineRepository;
-    private readonly Mock<IRepository<Question>> _mockQuestionRepository;
-    private readonly Mock<IRepository<Response>> _mockResponseRepository;
+    private readonly Mock<IOnPremisesRepository<Discipline>> _mockDisciplineRepository;
+    private readonly Mock<IOnPremisesRepository<Question>> _mockQuestionRepository;
+    private readonly Mock<IOnPremisesRepository<Response>> _mockResponseRepository;
     private readonly ResponseAiGenerator _responseAiGenerator;
 
     public ResponseAiGeneratorTests()
     {
         _mockChatModelManager = new Mock<IChatModelManager>();
         _mockHistoryBuilder = new Mock<IHistoryBuilder>();
-        _mockDisciplineRepository = new Mock<IRepository<Discipline>>();
-        _mockQuestionRepository = new Mock<IRepository<Question>>();
-        _mockResponseRepository = new Mock<IRepository<Response>>();
+        _mockDisciplineRepository = new Mock<IOnPremisesRepository<Discipline>>();
+        _mockQuestionRepository = new Mock<IOnPremisesRepository<Question>>();
+        _mockResponseRepository = new Mock<IOnPremisesRepository<Response>>();
 
         _responseAiGenerator = new ResponseAiGenerator(
             _mockChatModelManager.Object,

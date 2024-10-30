@@ -5,7 +5,7 @@ namespace AskGenAi.Infrastructure.Persistence;
 
 // Represents a repository that stores entities of type T
 // This implementation stores entities in memory
-public class InMemoryRepository<T> : IRepository<T> where T : IEntity
+public class InMemoryRepository<T> : IOnPremisesRepository<T> where T : IEntity
 {
     private readonly List<T> _entities = [];
 

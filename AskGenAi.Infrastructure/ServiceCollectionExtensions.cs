@@ -15,8 +15,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IFilePath, FilePath>();
         services.AddSingleton<IFileSystem, FileSystem.FileSystem>();
 
-        services.AddScoped(typeof(IRepository<>), typeof(FileRepository<>));
-        //services.AddScoped(typeof(IRepository<>), typeof(InMemoryRepository<>));
+        services.AddScoped(typeof(IOnPremisesRepository<>), typeof(FileRepository<>));
+        //services.AddScoped(typeof(IOnPremisesRepository<>), typeof(InMemoryRepository<>));
 
         return services;
     }

@@ -14,7 +14,7 @@ public class ClassNormalizerServiceTests
 
     public ClassNormalizerServiceTests()
     {
-        Mock<IRepository<Question>> mockQuestionRepository = new();
+        Mock<IOnPremisesRepository<Question>> mockQuestionRepository = new();
         _mockFilePath = new Mock<IFilePath>();
         _mockDisciplineFileSerializer = new Mock<IJsonFileSerializer<Discipline>>();
         _mockQuestionFileSerializer = new Mock<IJsonFileSerializer<Question>>();
