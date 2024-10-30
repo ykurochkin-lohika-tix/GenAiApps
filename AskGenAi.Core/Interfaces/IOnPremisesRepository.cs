@@ -6,7 +6,7 @@ namespace AskGenAi.Core.Interfaces;
 /// Represents a repository that stores entities of type T
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public interface IRepository<T> where T : IEntity
+public interface IOnPremisesRepository<T> where T : IEntity
 {
     /// <summary>
     /// Asynchronously retrieves all entities from the repository

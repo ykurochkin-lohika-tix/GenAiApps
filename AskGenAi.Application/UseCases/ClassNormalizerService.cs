@@ -1,11 +1,12 @@
-﻿using AskGenAi.Core.Entities;
+﻿using AskGenAi.Core.Aggregators;
+using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Application.UseCases;
 
 // </inheritdoc>
 public class ClassNormalizerService(
-    IRepository<Question> questionRepository,
+    IOnPremisesRepository<Question> questionOnPremisesRepository,
     IFilePath filePath,
     IJsonFileSerializer<Discipline> disciplineFileSerializer,
     IJsonFileSerializer<Question> questionFileSerializer) : IClassNormalizerService
@@ -110,7 +111,7 @@ public class ClassNormalizerService(
         // normalize all disciplines by adding id if it is empty
         foreach (var entity in normalizeEntities.Data)
         {
-            var questions = await questionRepository.GetAllAsync();
+            var questions = await questionOnPremisesRepository.GetAllAsync();
 
             var existQuestion = questions.SingleOrDefault(q => q.Context == entity.Context);
 

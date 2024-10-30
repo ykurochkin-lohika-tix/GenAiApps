@@ -1,5 +1,6 @@
 ﻿using AskGenAi.Application.Services;
 using AskGenAi.Core.Entities;
+using AskGenAi.Core.Enums;
 using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Application.UseCases;
@@ -8,9 +9,9 @@ namespace AskGenAi.Application.UseCases;
 public class ResponseAiGenerator(
     IChatModelManager chatModelManager,
     IHistoryBuilder historyBuilder,
-    IRepository<Discipline> disciplineRepository,
-    IRepository<Question> questionRepository,
-    IRepository<Response> responseRepository,
+    IOnPremisesRepository<Discipline> disciplineOnPremisesRepository,
+    IOnPremisesRepository<Question> questionOnPremisesRepository,
+    IOnPremisesRepository<Response> responseOnPremisesRepository,
     TimeSpan? delayDuration = null)
     : IResponseAiGenerator
 {
@@ -20,9 +21,9 @@ public class ResponseAiGenerator(
     public async Task RunAsync()
     {
         // Prepare the chat history. Take all disciplines and all question for it
-        var disciplines = await disciplineRepository.GetAllAsync();
-        var questions = await questionRepository.GetAllAsync();
-        var responses = (await responseRepository.GetAllAsync()).ToArray();
+        var disciplines = await disciplineOnPremisesRepository.GetAllAsync();
+        var questions = await questionOnPremisesRepository.GetAllAsync();
+        var responses = (await responseOnPremisesRepository.GetAllAsync()).ToArray();
 
         var group = disciplines.GroupJoin(questions, discipline => discipline.Type, question => question.DisciplineType,
             (discipline, enumerable) => new { discipline, enumerable });
@@ -54,7 +55,7 @@ public class ResponseAiGenerator(
                 var result = await chatModelManager.GetChatMessageContentAsync();
 
                 // Save the response to the question
-                await responseRepository.AddAsync(new Response
+                await responseOnPremisesRepository.AddAsync(new Response
                 {
                     Id = Guid.NewGuid(),
                     DisciplineType = discipline.Type,

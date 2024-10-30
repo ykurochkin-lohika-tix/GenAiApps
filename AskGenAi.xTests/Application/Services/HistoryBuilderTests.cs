@@ -1,5 +1,5 @@
 using AskGenAi.Application.Services;
-using AskGenAi.Core.Entities;
+using AskGenAi.Core.Enums;
 using FluentAssertions;
 
 namespace AskGenAi.xTests.Application.Services;

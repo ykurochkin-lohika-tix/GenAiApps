@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-
 using AskGenAi.Application;
 using AskGenAi.Common;
 using AskGenAi.Core.Interfaces;
 using AskGenAi.Infrastructure;
+using AskGenAi.Presentation;
 
 var serviceProvider = new ServiceCollection()
+    .AddConfiguration()
     .AddApplicationServices()
     .AddCommonServices()
     .AddInfrastructureServices()

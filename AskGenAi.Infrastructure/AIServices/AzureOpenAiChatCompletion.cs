@@ -16,14 +16,8 @@ public class AzureOpenAiChatCompletion : IChatModelManager
 
     public ChatHistory History => _history ??= [];
 
-    public AzureOpenAiChatCompletion()
+    public AzureOpenAiChatCompletion(IConfiguration configuration)
     {
-        // Build configuration
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, true)
-            .Build();
-
         var deploymentName = configuration["AzureOpenAI:DeploymentName"];
         var endpoint = configuration["AzureOpenAI:Endpoint"];
         var apiKey = configuration["AzureOpenAI:ApiKey"];

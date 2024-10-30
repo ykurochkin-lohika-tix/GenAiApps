@@ -1,11 +1,12 @@
-﻿using AskGenAi.Core.Entities;
+﻿using AskGenAi.Core.Aggregators;
+using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Infrastructure.Persistence;
 
 // Represents a repository that stores entities of type T
 // This implementation stores entities in a JSON file
-public class FileRepository<T> : IRepository<T> where T : IEntity
+public class FileRepository<T> : IOnPremisesRepository<T> where T : IEntity
 {
     // it is used like composition for the file repository
     private readonly IJsonFileSerializer<T> _jsonFileSerializer;

@@ -4,6 +4,7 @@ using FluentAssertions;
 using AskGenAi.Core.Interfaces;
 using AutoFixture;
 using System.Text.Json.Serialization;
+using AskGenAi.Core.Aggregators;
 
 namespace AskGenAi.xTests.Common.Services;
 
@@ -40,7 +41,7 @@ public class JsonFileSerializerTests
         var root = new Root<TestEntity>
         {
             Version = "1.0",
-            Data = [new TestEntity() { Id = guid, Name = "Test" }]
+            Data = [new TestEntity { Id = guid, Name = "Test" }]
         };
 
         // Act
