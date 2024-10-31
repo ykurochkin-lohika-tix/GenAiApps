@@ -16,4 +16,4 @@ var classNormalizerService = serviceProvider.GetRequiredService<IClassNormalizer
 //await classNormalizerService.NormalizeQuestionAsync();
 
 var responseAiGenerator = serviceProvider.GetRequiredService<IResponseAiGenerator>();
-await responseAiGenerator.RunAsync();
+//await responseAiGenerator.RunAsync();

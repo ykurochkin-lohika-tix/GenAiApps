@@ -1,7 +1,7 @@
 ﻿using AskGenAi.Core.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
@@ -12,18 +12,19 @@ public class AzureOpenAiChatCompletion : IChatModelManager
 {
     private readonly Kernel _kernel;
     private readonly IChatCompletionService _chatCompletionService;
+    private readonly ILogger<AzureOpenAiChatCompletion> _logger;
     private ChatHistory? _history;
 
     public ChatHistory History => _history ??= [];
 
-    public AzureOpenAiChatCompletion(IConfiguration configuration)
+    public AzureOpenAiChatCompletion(IOptions<AzureOpenAiSettings> options, ILogger<AzureOpenAiChatCompletion> logger)
     {
-        var deploymentName = configuration["AzureOpenAI:DeploymentName"];
-        var endpoint = configuration["AzureOpenAI:Endpoint"];
-        var apiKey = configuration["AzureOpenAI:ApiKey"];
+        _logger = logger;
+        var settings = options.Value;
+        LogAnySettingsEmpty(settings);
 
         // Create a kernel with Azure OpenAI chat completion
-        var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(deploymentName!, endpoint!, apiKey!);
+        var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(settings.DeploymentName, settings.Endpoint, settings.ApiKey);
 
         // Add enterprise components
         builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Trace));
@@ -31,7 +32,7 @@ public class AzureOpenAiChatCompletion : IChatModelManager
         _kernel = builder.Build();
         _chatCompletionService = _kernel.GetRequiredService<IChatCompletionService>();
     }
-
+    
     // </inheritdoc>
     public void AddSystemMessage(string systemMessage)
     {
@@ -66,5 +67,21 @@ public class AzureOpenAiChatCompletion : IChatModelManager
         }
 
         return result.Content;
+    }
+
+    private void LogAnySettingsEmpty(AzureOpenAiSettings settings)
+    {
+        if (string.IsNullOrEmpty(settings.DeploymentName))
+        {
+            _logger.LogError("AzureOpenAI:DeploymentName is not configured.");
+        }
+        if (string.IsNullOrEmpty(settings.Endpoint))
+        {
+            _logger.LogError("AzureOpenAI:Endpoint is not configured.");
+        }
+        if (string.IsNullOrEmpty(settings.ApiKey))
+        {
+            _logger.LogError("AzureOpenAI:ApiKey is not configured.");
+        }
     }
 }
