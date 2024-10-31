@@ -1,6 +1,6 @@
 ﻿namespace AskGenAi.Core.Entities;
 
-public class User : IEntity
+public class User : IEntityRoot
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }

@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using AskGenAi.Application;
 using AskGenAi.Common;
+using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
 using AskGenAi.Infrastructure;
 using AskGenAi.Presentation;
 
 var serviceProvider = new ServiceCollection()
+    .AddLogging()
     .AddConfiguration()
     .AddApplicationServices()
     .AddCommonServices()
@@ -17,3 +19,6 @@ var classNormalizerService = serviceProvider.GetRequiredService<IClassNormalizer
 
 var responseAiGenerator = serviceProvider.GetRequiredService<IResponseAiGenerator>();
 //await responseAiGenerator.RunAsync();
+
+var repo = serviceProvider.GetRequiredService<IRepository<User>>();
+//var users = await repo.GetAllAsync(null);

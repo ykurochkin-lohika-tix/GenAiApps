@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AskGenAi.Core.Entities;
+using AskGenAi.Core.Interfaces;
+using AskGenAi.Infrastructure.ApplicationDbContext;
 using AskGenAi.Infrastructure.AIServices;
 using AskGenAi.Infrastructure.FileSystem;
 using AskGenAi.Infrastructure.Persistence;
-using AskGenAi.Core.Interfaces;
-using AskGenAi.Infrastructure.ApplicationDbContext;
 
 namespace AskGenAi.Infrastructure;
 
@@ -30,6 +31,8 @@ public static class ServiceCollectionExtensions
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration["SqlDatabase:ConnectionStrings:DefaultConnection"]));
+
+        services.AddScoped<IRepository<User>, Repository<User>>();
 
         return services;
     }

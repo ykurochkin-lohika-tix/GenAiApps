@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AskGenAi.Core.Entities;
+using AskGenAi.Core.Interfaces;
 
 namespace AskGenAi.Infrastructure.ApplicationDbContext;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUnitOfWork
 {
     public DbSet<User> Users { get; set; } 
 
