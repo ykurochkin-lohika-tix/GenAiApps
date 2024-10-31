@@ -17,6 +17,9 @@ public static class ServiceCollectionExtensions
         var serviceProvider = services.BuildServiceProvider();
         var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
+        // Bind AzureOpenAI settings
+        services.Configure<AzureOpenAiSettings>(configuration.GetSection("AzureOpenAI"));
+
         services.AddScoped<IChatModelManager, AzureOpenAiChatCompletion>();
 
         services.AddSingleton<IFilePath, FilePath>();
@@ -25,9 +28,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped(typeof(IOnPremisesRepository<>), typeof(FileRepository<>));
         //services.AddScoped(typeof(IOnPremisesRepository<>), typeof(InMemoryRepository<>));
 
-        var connectionStrings = configuration["SqlDatabase:ConnectionStrings:DefaultConnection"];
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(connectionStrings));
+            options.UseSqlServer(configuration["SqlDatabase:ConnectionStrings:DefaultConnection"]));
 
         return services;
     }

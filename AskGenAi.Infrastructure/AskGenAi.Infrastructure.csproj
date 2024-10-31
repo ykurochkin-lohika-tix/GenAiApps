@@ -34,6 +34,7 @@
   <ItemGroup>
     <Folder Include="infra\genaiappssqlserver\" />
     <Folder Include="infra\GenAiAppDB\" />
+    <Folder Include="Resources\sql_scripts\" />
   </ItemGroup>
 
 </Project>
