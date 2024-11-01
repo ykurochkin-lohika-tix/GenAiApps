@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using AskGenAi.Core.Aggregators;
-using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
+using AskGenAi.Core.Models;
 
 namespace AskGenAi.Common.Services;
 

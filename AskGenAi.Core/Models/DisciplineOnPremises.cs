@@ -1,24 +1,24 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace AskGenAi.Core.Entities;
+namespace AskGenAi.Core.Models;
 
-public class Discipline : IEntity
+public class DisciplineOnPremises : IEntity
 {
-    [JsonPropertyName("id")] 
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
-    [JsonPropertyName("type")] 
+    [JsonPropertyName("type")]
     public int Type { get; set; }
 
-    [JsonPropertyName("title")] 
+    [JsonPropertyName("title")]
     public string? Title { get; set; }
 
-    [JsonPropertyName("subtitle")] 
+    [JsonPropertyName("subtitle")]
     public string? Subtitle { get; set; }
 
-    [JsonPropertyName("goal")] 
+    [JsonPropertyName("goal")]
     public string? Goal { get; set; }
 
-    [JsonPropertyName("scope")] 
+    [JsonPropertyName("scope")]
     public string? Scope { get; set; }
 }

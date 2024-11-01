@@ -1,4 +1,4 @@
-﻿namespace AskGenAi.Core.Entities;
+﻿namespace AskGenAi.Core.Models;
 
 public interface IEntity
 {

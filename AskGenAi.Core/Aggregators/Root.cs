@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using AskGenAi.Core.Entities;
+using AskGenAi.Core.Models;
 
 namespace AskGenAi.Core.Aggregators;
 

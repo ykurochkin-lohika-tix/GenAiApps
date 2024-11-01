@@ -1,15 +1,15 @@
 ﻿using AskGenAi.Core.Aggregators;
-using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
+using AskGenAi.Core.Models;
 
 namespace AskGenAi.Application.UseCases;
 
 // </inheritdoc>
 public class ClassNormalizerService(
-    IOnPremisesRepository<Question> questionOnPremisesRepository,
+    IOnPremisesRepository<QuestionOnPremises> questionOnPremisesRepository,
     IFilePath filePath,
-    IJsonFileSerializer<Discipline> disciplineFileSerializer,
-    IJsonFileSerializer<Question> questionFileSerializer) : IClassNormalizerService
+    IJsonFileSerializer<DisciplineOnPremises> disciplineFileSerializer,
+    IJsonFileSerializer<QuestionOnPremises> questionFileSerializer) : IClassNormalizerService
 {
     // </inheritdoc>
     public async Task NormalizeDisciplineAsync()
@@ -19,7 +19,7 @@ public class ClassNormalizerService(
 
         if (normalizeEntities is null || normalizeEntities.Data.Count == 0)
         {
-            Console.WriteLine("No" + nameof(Discipline) + "classes found");
+            Console.WriteLine("No" + nameof(DisciplineOnPremises) + "classes found");
             return;
         }
 
@@ -46,7 +46,7 @@ public class ClassNormalizerService(
 
         if (normalizeEntities is null || normalizeEntities.Data.Count == 0)
         {
-            Console.WriteLine("No" + nameof(Question) + "classes found");
+            Console.WriteLine("No" + nameof(QuestionOnPremises) + "classes found");
             return;
         }
 
@@ -69,7 +69,7 @@ public class ClassNormalizerService(
     // </inheritdoc>
     public async Task NormalizeQuestionsAsync()
     {
-        var normalizeEntitiesFull = new Root<Question>
+        var normalizeEntitiesFull = new Root<QuestionOnPremises>
         {
             Data = [],
             Version = "1.0.0"
@@ -79,10 +79,10 @@ public class ClassNormalizerService(
         {
             var normalizeEntities = await NormalizeQuestionAsync(questionsFilename);
 
-            var enumerable = normalizeEntities as Question[] ?? normalizeEntities.ToArray();
+            var enumerable = normalizeEntities as QuestionOnPremises[] ?? normalizeEntities.ToArray();
             if (enumerable.Length == 0) 
             {
-                Console.WriteLine("No" + nameof(Question) + "classes found");
+                Console.WriteLine("No" + nameof(QuestionOnPremises) + "classes found");
                 continue;
             }
 
@@ -97,15 +97,15 @@ public class ClassNormalizerService(
         Console.WriteLine("Total saved items " + normalizeEntitiesFull.Data.Count);
     }
 
-    private async Task<IEnumerable<Question>> NormalizeQuestionAsync(string questionsFilename)
+    private async Task<IEnumerable<QuestionOnPremises>> NormalizeQuestionAsync(string questionsFilename)
     {
         var normalizeEntities =
             await questionFileSerializer.DeserializeAsync(filePath.GetLocalQuestionsPath(questionsFilename));
 
         if (normalizeEntities is null || normalizeEntities.Data.Count == 0)
         {
-            Console.WriteLine("No" + nameof(Question) + "classes found");
-            return Array.Empty<Question>();
+            Console.WriteLine("No" + nameof(QuestionOnPremises) + "classes found");
+            return Array.Empty<QuestionOnPremises>();
         }
 
         // normalize all disciplines by adding id if it is empty

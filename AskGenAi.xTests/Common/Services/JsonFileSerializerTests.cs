@@ -1,10 +1,10 @@
 using AskGenAi.Common.Services;
-using AskGenAi.Core.Entities;
 using FluentAssertions;
 using AskGenAi.Core.Interfaces;
 using AutoFixture;
 using System.Text.Json.Serialization;
 using AskGenAi.Core.Aggregators;
+using AskGenAi.Core.Models;
 
 namespace AskGenAi.xTests.Common.Services;
 

@@ -1,4 +1,4 @@
-using AskGenAi.Core.Entities;
+using AskGenAi.Core.Models;
 using AskGenAi.Infrastructure.Persistence;
 using FluentAssertions;
 

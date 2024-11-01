@@ -1,7 +1,7 @@
 ﻿using AskGenAi.Application.Services;
-using AskGenAi.Core.Entities;
 using AskGenAi.Core.Enums;
 using AskGenAi.Core.Interfaces;
+using AskGenAi.Core.Models;
 
 namespace AskGenAi.Application.UseCases;
 
@@ -9,9 +9,9 @@ namespace AskGenAi.Application.UseCases;
 public class ResponseAiGenerator(
     IChatModelManager chatModelManager,
     IHistoryBuilder historyBuilder,
-    IOnPremisesRepository<Discipline> disciplineOnPremisesRepository,
-    IOnPremisesRepository<Question> questionOnPremisesRepository,
-    IOnPremisesRepository<Response> responseOnPremisesRepository,
+    IOnPremisesRepository<DisciplineOnPremises> disciplineOnPremisesRepository,
+    IOnPremisesRepository<QuestionOnPremises> questionOnPremisesRepository,
+    IOnPremisesRepository<ResponseOnPremises> responseOnPremisesRepository,
     TimeSpan? delayDuration = null)
     : IResponseAiGenerator
 {
@@ -55,7 +55,7 @@ public class ResponseAiGenerator(
                 var result = await chatModelManager.GetChatMessageContentAsync();
 
                 // Save the response to the question
-                await responseOnPremisesRepository.AddAsync(new Response
+                await responseOnPremisesRepository.AddAsync(new ResponseOnPremises
                 {
                     Id = Guid.NewGuid(),
                     DisciplineType = discipline.Type,
