@@ -34,9 +34,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         {
             entity.Property(d => d.Id).ValueGeneratedOnAdd();
             entity.Property(d => d.Type).HasConversion<int>();
-            entity.Property(d => d.Title).HasMaxLength(150);
-            entity.Property(d => d.Subtitle).HasMaxLength(150);
-            entity.Property(d => d.Scope).HasMaxLength(150);
+            entity.Property(d => d.Title).HasMaxLength(200);
+            entity.Property(d => d.Subtitle).HasMaxLength(200);
+            entity.Property(d => d.Scope).HasMaxLength(250);
             entity.HasMany(d => d.Questions)
                 .WithOne(q => q.Discipline)
                 .HasForeignKey(q => q.DisciplineId)
