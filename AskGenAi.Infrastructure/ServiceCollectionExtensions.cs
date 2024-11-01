@@ -33,6 +33,9 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(configuration["SqlDatabase:ConnectionStrings:DefaultConnection"]));
 
         services.AddScoped<IRepository<User>, Repository<User>>();
+        services.AddScoped<IRepository<Discipline>, Repository<Discipline>>();
+        services.AddScoped<IRepository<Question>, Repository<Question>>();
+        services.AddScoped<IRepository<Response>, Repository<Response>>();
 
         return services;
     }

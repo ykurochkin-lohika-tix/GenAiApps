@@ -162,4 +162,21 @@ public class UserRepositoryTest
         Assert.NotNull(retrievedUser);
         Assert.Equal(user2.Name, retrievedUser.Name);
     }
+
+    [Fact]
+    public async Task GetProjectedAsync_ShouldReturnProjectedUsers()
+    {
+        var user1 = new User { Id = Guid.NewGuid(), Name = "User 1", Email = "user1@example.com" };
+        var user2 = new User { Id = Guid.NewGuid(), Name = "User 2", Email = "user2@example.com" };
+
+        await _userRepository.AddAsync(user1);
+        await _userRepository.AddAsync(user2);
+        await _userRepository.UnitOfWork.SaveChangesAsync();
+
+        var projectedUsers = (await _userRepository.GetProjectedAsync(u => new { u.Name })).ToArray();
+
+        Assert.Equal(2, projectedUsers.Count());
+        Assert.Contains(projectedUsers, u => u.Name == "User 1");
+        Assert.Contains(projectedUsers, u => u.Name == "User 2");
+    }
 }

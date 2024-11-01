@@ -2,6 +2,7 @@
 
 public enum DisciplineType
 {
+    Empty = 0,
     NetRuntime = 1,
     NetBasicLanguage = 2,
     NetAdvancedLanguage = 3,

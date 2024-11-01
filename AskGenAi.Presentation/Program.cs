@@ -21,4 +21,4 @@ var responseAiGenerator = serviceProvider.GetRequiredService<IResponseAiGenerato
 //await responseAiGenerator.RunAsync();
 
 var repo = serviceProvider.GetRequiredService<IRepository<User>>();
-//var users = await repo.GetAllAsync(null);
+//var projected = await repo.GetProjectedAsync(u => new { u.Email, u.Name });
