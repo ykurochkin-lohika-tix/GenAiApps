@@ -1,18 +1,18 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace AskGenAi.Core.Entities;
+namespace AskGenAi.Core.Models;
 
-public class Response : IEntity
+public class ResponseOnPremises : IEntity
 {
-    [JsonPropertyName("id")] 
+    [JsonPropertyName("id")]
     public Guid Id { get; set; }
 
     [JsonPropertyName("questionId")]
     public Guid QuestionId { get; set; }
 
-    [JsonPropertyName("disciplineType")] 
+    [JsonPropertyName("disciplineType")]
     public int DisciplineType { get; set; }
 
-    [JsonPropertyName("context")] 
+    [JsonPropertyName("context")]
     public string? Context { get; set; }
 }

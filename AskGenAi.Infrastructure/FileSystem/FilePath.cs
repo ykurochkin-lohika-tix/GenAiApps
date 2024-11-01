@@ -1,5 +1,5 @@
-﻿using AskGenAi.Core.Entities;
-using AskGenAi.Core.Interfaces;
+﻿using AskGenAi.Core.Interfaces;
+using AskGenAi.Core.Models;
 
 namespace AskGenAi.Infrastructure.FileSystem;
 
@@ -34,9 +34,9 @@ public class FilePath : IFilePath
     {
         return type switch
         {
-            not null when type == typeof(Question) => GetLocalQuestionsFullPath(),
-            not null when type == typeof(Discipline) => GetLocalDisciplinesFullPath(),
-            not null when type == typeof(Response) => GetLocalResponsesFullPath(),
+            not null when type == typeof(QuestionOnPremises) => GetLocalQuestionsFullPath(),
+            not null when type == typeof(DisciplineOnPremises) => GetLocalDisciplinesFullPath(),
+            not null when type == typeof(ResponseOnPremises) => GetLocalResponsesFullPath(),
             _ => string.Empty
         };
     }

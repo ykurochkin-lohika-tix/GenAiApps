@@ -1,4 +1,4 @@
-using AskGenAi.Core.Entities;
+using AskGenAi.Core.Models;
 using AskGenAi.Infrastructure.FileSystem;
 using FluentAssertions;
 
@@ -38,7 +38,7 @@ public class FilePathTests
     public void GetLocalFullPathByType_ShouldReturnCorrectPath_ForQuestionType()
     {
         // Act
-        var result = _filePath.GetLocalFullPathByType(typeof(Question));
+        var result = _filePath.GetLocalFullPathByType(typeof(QuestionOnPremises));
 
         // Assert
         result.Should().EndWith("AskGenAi.Infrastructure/Resources/question.json");
@@ -48,7 +48,7 @@ public class FilePathTests
     public void GetLocalFullPathByType_ShouldReturnCorrectPath_ForDisciplineType()
     {
         // Act
-        var result = _filePath.GetLocalFullPathByType(typeof(Discipline));
+        var result = _filePath.GetLocalFullPathByType(typeof(DisciplineOnPremises));
 
         // Assert
         result.Should().EndWith("AskGenAi.Infrastructure/Resources/disciplineV1.json");
@@ -58,7 +58,7 @@ public class FilePathTests
     public void GetLocalFullPathByType_ShouldReturnCorrectPath_ForResponseType()
     {
         // Act
-        var result = _filePath.GetLocalFullPathByType(typeof(Response));
+        var result = _filePath.GetLocalFullPathByType(typeof(ResponseOnPremises));
 
         // Assert
         result.Should().EndWith("AskGenAi.Infrastructure/Resources/response.json");
