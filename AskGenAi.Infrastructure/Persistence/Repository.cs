@@ -63,10 +63,26 @@ public class Repository<T>(AppDbContext context) : IRepository<T> where T : clas
         return await DbSet.FirstOrDefaultAsync(predicate, cancellationToken);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate,
+        CancellationToken cancellationToken = default)
     {
         return predicate is null
             ? await DbSet.ToListAsync(cancellationToken)
             : await DbSet.Where(predicate).ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<T>> GetAllNoTrackAsync(Expression<Func<T, bool>>? predicate,
+        CancellationToken cancellationToken = default)
+    {
+        return predicate is null
+            ? await DbSet.AsNoTracking().ToListAsync(cancellationToken)
+            : await DbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<TResult>> GetProjectedAsync<TResult>(
+        Expression<Func<T, TResult>> selector,
+        CancellationToken cancellationToken = default)
+    {
+        return await DbSet.Select(selector).ToListAsync(cancellationToken);
     }
 }

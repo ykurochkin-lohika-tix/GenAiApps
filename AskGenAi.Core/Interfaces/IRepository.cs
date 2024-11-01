@@ -15,6 +15,8 @@ public interface IRepository<T> where T : class, IEntityRoot
     Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
     Task<int> CountAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
     Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate, CancellationToken cancellationToken = default);
+    Task<IEnumerable<T>> GetAllNoTrackAsync(Expression<Func<T, bool>>? predicate, CancellationToken cancellationToken = default);
+    Task<IEnumerable<TResult>> GetProjectedAsync<TResult>(Expression<Func<T, TResult>> selector, CancellationToken cancellationToken = default);
 
     IUnitOfWork UnitOfWork { get; }
 }
