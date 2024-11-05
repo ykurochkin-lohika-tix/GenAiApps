@@ -7,6 +7,8 @@ namespace AskGenAi.Infrastructure.ApplicationDbContext;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUnitOfWork
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Discipline> Disciplines { get; set; }
     public DbSet<Question> Questions { get; set; }
     public DbSet<Response> Responses { get; set; }
@@ -23,12 +25,21 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         // User
         modelBuilder.Entity<User>(entity =>
         {
-            entity.Property(u => u.Id).ValueGeneratedOnAdd();
-            entity.Property(u => u.Name).HasMaxLength(100);
             entity.HasIndex(u => u.Email).IsUnique();
             entity.Property(u => u.Email).HasMaxLength(100);
         });
-
+        // UserRole
+        modelBuilder.Entity<UserRole>()
+            .HasKey(ur => new { ur.UserId, ur.RoleId });
+        modelBuilder.Entity<UserRole>()
+            .HasOne(ur => ur.User)
+            .WithMany(u => u.UserRoles)
+            .HasForeignKey(ur => ur.UserId);
+        modelBuilder.Entity<UserRole>()
+            .HasOne(ur => ur.Role)
+            .WithMany(r => r.UserRoles)
+            .HasForeignKey(ur => ur.RoleId);
+        
         // Discipline
         modelBuilder.Entity<Discipline>(entity =>
         {

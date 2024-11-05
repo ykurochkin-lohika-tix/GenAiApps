@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AskGenAi.Common", "AskGenAi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AskGenAi.Presentation", "AskGenAi.Presentation\AskGenAi.Presentation.csproj", "{BF2ABE19-1241-4C9E-8616-BEC851374ACC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AskGenAi.xTests", "AskGenAi.xTests\AskGenAi.xTests.csproj", "{E5F79DA7-3F38-41DA-81DC-6B46D05472CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AskGenAi.xTests", "AskGenAi.xTests\AskGenAi.xTests.csproj", "{E5F79DA7-3F38-41DA-81DC-6B46D05472CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AskGenAi.WebApi", "AskGenAi.WebApi\AskGenAi.WebApi.csproj", "{220C49EB-E3AE-4377-9D42-753E51340C3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{E5F79DA7-3F38-41DA-81DC-6B46D05472CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5F79DA7-3F38-41DA-81DC-6B46D05472CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5F79DA7-3F38-41DA-81DC-6B46D05472CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{220C49EB-E3AE-4377-9D42-753E51340C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{220C49EB-E3AE-4377-9D42-753E51340C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{220C49EB-E3AE-4377-9D42-753E51340C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{220C49EB-E3AE-4377-9D42-753E51340C3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
