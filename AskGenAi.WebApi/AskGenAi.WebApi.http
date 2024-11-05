@@ -1,0 +1,24 @@
+### register
+POST {{AskGenAi.WebApi_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{Email1}}",
+  "password": "{{Password1}}"
+}
+
+### login
+POST {{AskGenAi.WebApi_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{Email1}}",
+  "password": "{{Password1}}",
+  "twoFactorCode": "string",
+  "twoFactorRecoveryCode": "string"
+}
+
+### weatherforecast
+GET {{AskGenAi.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+Authorization: Bearer {{AuthToken}}

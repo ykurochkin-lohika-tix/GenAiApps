@@ -19,6 +19,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDataTransfer<ResponseOnPremises, Response>, DataTransfer<ResponseOnPremises, Response>>();
 
         services.AddScoped<IHistoryBuilder, HistoryBuilder>();
+        services.AddSingleton<IRandomizer, Randomizer>();
 
         services.AddScoped<IClassNormalizerService, ClassNormalizerService>();
         services.AddScoped<IResponseAiGenerator, ResponseAiGenerator>();

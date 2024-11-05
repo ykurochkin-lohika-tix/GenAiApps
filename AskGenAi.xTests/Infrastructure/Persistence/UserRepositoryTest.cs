@@ -32,20 +32,22 @@ public class UserRepositoryTest
     [Fact]
     public async Task AddAsync_ShouldAddUser()
     {
-        var user = new User { Id = Guid.NewGuid(), Name = "Test User", Email = "test@example.com" };
+        var user = new User
+            { Id = Guid.NewGuid(), Email = "test@example.com", PasswordHash = "PasswordHash" };
 
         await _userRepository.AddAsync(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
 
         var retrievedUser = await _userRepository.GetByIdAsync(user.Id);
         Assert.NotNull(retrievedUser);
-        Assert.Equal(user.Name, retrievedUser.Name);
+        Assert.Equal(user.Email, retrievedUser.Email);
     }
 
     [Fact]
     public async Task RemoveByIdAsync_ShouldRemoveUser()
     {
-        var user = new User { Id = Guid.NewGuid(), Name = "Test User", Email = "test@example.com" };
+        var user = new User
+            { Id = Guid.NewGuid(), Email = "test@example.com", PasswordHash = "PasswordHash" };
 
         await _userRepository.AddAsync(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
@@ -60,25 +62,28 @@ public class UserRepositoryTest
     [Fact]
     public async Task Update_ShouldUpdateUser()
     {
-        var user = new User { Id = Guid.NewGuid(), Name = "Test User", Email = "test@example.com" };
+        var user = new User
+            { Id = Guid.NewGuid(), Email = "test@example.com", PasswordHash = "PasswordHash" };
 
         await _userRepository.AddAsync(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
 
-        user.Name = "Updated User";
+        user.Email = "Updated test@example.com";
         _userRepository.Update(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
 
         var retrievedUser = await _userRepository.GetByIdAsync(user.Id);
         Assert.NotNull(retrievedUser);
-        Assert.Equal("Updated User", retrievedUser.Name);
+        Assert.Equal("Updated test@example.com", retrievedUser.Email);
     }
 
     [Fact]
     public async Task GetAllAsync_ShouldReturnAllUsers()
     {
-        var user1 = new User { Id = Guid.NewGuid(), Name = "User 1", Email = "user1@example.com" };
-        var user2 = new User { Id = Guid.NewGuid(), Name = "User 2", Email = "user2@example.com" };
+        var user1 = new User
+            { Id = Guid.NewGuid(), Email = "user1@example.com", PasswordHash = "PasswordHash" };
+        var user2 = new User
+            { Id = Guid.NewGuid(), Email = "user2@example.com", PasswordHash = "PasswordHash" };
 
         await _userRepository.AddAsync(user1);
         await _userRepository.AddAsync(user2);
@@ -91,8 +96,10 @@ public class UserRepositoryTest
     [Fact]
     public async Task CountAsync_ShouldReturnCorrectCount()
     {
-        var user1 = new User { Id = Guid.NewGuid(), Name = "User 1", Email = "user1@example.com" };
-        var user2 = new User { Id = Guid.NewGuid(), Name = "User 2", Email = "user2@example.com" };
+        var user1 = new User
+            { Id = Guid.NewGuid(), Email = "user1@example.com", PasswordHash = "PasswordHash" };
+        var user2 = new User
+            { Id = Guid.NewGuid(), Email = "user2@example.com", PasswordHash = "PasswordHash" };
 
         await _userRepository.AddAsync(user1);
         await _userRepository.AddAsync(user2);
@@ -105,21 +112,24 @@ public class UserRepositoryTest
     [Fact]
     public async Task Add_ShouldAddUser()
     {
-        var user = new User { Id = Guid.NewGuid(), Name = "Test User", Email = "test@example.com" };
+        var user = new User
+            { Id = Guid.NewGuid(), Email = "test@example.com", PasswordHash = "PasswordHash" };
 
         _userRepository.Add(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
 
         var retrievedUser = await _userRepository.GetByIdAsync(user.Id);
         Assert.NotNull(retrievedUser);
-        Assert.Equal(user.Name, retrievedUser.Name);
+        Assert.Equal(user.Email, retrievedUser.Email);
     }
 
     [Fact]
     public async Task AddRangeAsync_ShouldAddUsers()
     {
-        var user1 = new User { Id = Guid.NewGuid(), Name = "User 1", Email = "user1@example.com" };
-        var user2 = new User { Id = Guid.NewGuid(), Name = "User 2", Email = "user2@example.com" };
+        var user1 = new User
+            { Id = Guid.NewGuid(), Email = "user1@example.com", PasswordHash = "PasswordHash" };
+        var user2 = new User
+            { Id = Guid.NewGuid(), Email = "user2@example.com", PasswordHash = "PasswordHash" };
 
         await _userRepository.AddRangeAsync(CancellationToken.None, user1, user2);
         await _userRepository.UnitOfWork.SaveChangesAsync();
@@ -134,7 +144,8 @@ public class UserRepositoryTest
     [Fact]
     public async Task Remove_ShouldRemoveUser()
     {
-        var user = new User { Id = Guid.NewGuid(), Name = "Test User", Email = "test@example.com" };
+        var user = new User
+            { Id = Guid.NewGuid(), Email = "test@example.com", PasswordHash = "PasswordHash" };
 
         _userRepository.Add(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
@@ -149,8 +160,10 @@ public class UserRepositoryTest
     [Fact]
     public async Task FirstOrDefaultAsync_ShouldReturnFirstMatchingUser()
     {
-        var user1 = new User { Id = Guid.NewGuid(), Name = "User 1", Email = "user1@example.com" };
-        var user2 = new User { Id = Guid.NewGuid(), Name = "User 2", Email = "user2@example.com" };
+        var user1 = new User
+            { Id = Guid.NewGuid(), Email = "user1@example.com", PasswordHash = "PasswordHash" };
+        var user2 = new User
+            { Id = Guid.NewGuid(), Email = "user2@example.com", PasswordHash = "PasswordHash" };
 
         await _userRepository.AddAsync(user1);
         await _userRepository.AddAsync(user2);
@@ -160,23 +173,25 @@ public class UserRepositoryTest
         var retrievedUser = await _userRepository.FirstOrDefaultAsync(predicate);
 
         Assert.NotNull(retrievedUser);
-        Assert.Equal(user2.Name, retrievedUser.Name);
+        Assert.Equal(user2.Email, retrievedUser.Email);
     }
 
     [Fact]
     public async Task GetProjectedAsync_ShouldReturnProjectedUsers()
     {
-        var user1 = new User { Id = Guid.NewGuid(), Name = "User 1", Email = "user1@example.com" };
-        var user2 = new User { Id = Guid.NewGuid(), Name = "User 2", Email = "user2@example.com" };
+        var user1 = new User
+            { Id = Guid.NewGuid(), Email = "user1@example.com", PasswordHash = "PasswordHash" };
+        var user2 = new User
+            { Id = Guid.NewGuid(), Email = "user2@example.com", PasswordHash = "PasswordHash" };
 
         await _userRepository.AddAsync(user1);
         await _userRepository.AddAsync(user2);
         await _userRepository.UnitOfWork.SaveChangesAsync();
 
-        var projectedUsers = (await _userRepository.GetProjectedAsync(u => new { u.Name })).ToArray();
+        var projectedUsers = (await _userRepository.GetProjectedAsync(u => new { u.Email })).ToArray();
 
-        Assert.Equal(2, projectedUsers.Count());
-        Assert.Contains(projectedUsers, u => u.Name == "User 1");
-        Assert.Contains(projectedUsers, u => u.Name == "User 2");
+        Assert.Equal(2, projectedUsers.Length);
+        Assert.Contains(projectedUsers, u => u.Email == "user1@example.com");
+        Assert.Contains(projectedUsers, u => u.Email == "user2@example.com");
     }
 }

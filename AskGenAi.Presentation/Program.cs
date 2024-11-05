@@ -25,3 +25,6 @@ var repo = serviceProvider.GetRequiredService<IRepository<User>>();
 
 var executor = serviceProvider.GetRequiredService<IDataTransferExecutor>();
 //await executor.ExecuteAsync();
+
+var randomizer = serviceProvider.GetRequiredService<IRandomizer>();
+//var key = randomizer.GenerateKey();

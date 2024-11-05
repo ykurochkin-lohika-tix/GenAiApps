@@ -1,6 +1,10 @@
 # Ignore appsettings.json file in Infrastructure
 AskGenAi.Infrastructure/appsettings.json
 
+# Ignore appsettings.json file and http-client.env.json in Infrastructure
+AskGenAi.WebApi/appsettings.json
+AskGenAi.WebApi/http-client.env.json
+
 # Ignore everything inside the Resources folder in Infrastructure
 AskGenAi.Infrastructure/Resources/*
 
