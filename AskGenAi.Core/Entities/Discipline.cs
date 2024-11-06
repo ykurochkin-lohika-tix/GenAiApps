@@ -6,7 +6,7 @@ public class Discipline : IEntityRoot
 {
     public Guid Id { get; set; }
 
-    public DisciplineType Type { get; set; }
+    public DisciplineType Type { get; set; } = default!;
 
     public string? Title { get; set; }
 
