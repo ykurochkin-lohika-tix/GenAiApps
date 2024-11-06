@@ -18,7 +18,7 @@ var classNormalizerService = serviceProvider.GetRequiredService<IClassNormalizer
 //await classNormalizerService.NormalizeQuestionAsync();
 
 var responseAiGenerator = serviceProvider.GetRequiredService<IResponseAiGenerator>();
-//await responseAiGenerator.RunAsync();
+await responseAiGenerator.RunForAllWithoutResponseAsync();
 
 var repo = serviceProvider.GetRequiredService<IRepository<User>>();
 //var projected = await repo.GetProjectedAsync(u => new { u.Email, u.Name });

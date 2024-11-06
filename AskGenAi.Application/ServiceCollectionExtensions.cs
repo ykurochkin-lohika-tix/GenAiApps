@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IClassNormalizerService, ClassNormalizerService>();
         services.AddScoped<IResponseAiGenerator, ResponseAiGenerator>();
+        //services.AddScoped<IResponseAiGenerator, LocalResponseAiGenerator>();
         services.AddScoped<IDataTransferExecutor, DataTransferExecutor>();
 
         return services;

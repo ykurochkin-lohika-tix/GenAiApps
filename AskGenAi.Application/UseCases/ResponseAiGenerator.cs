@@ -1,7 +1,6 @@
 ﻿using AskGenAi.Application.Services;
-using AskGenAi.Core.Enums;
+using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
-using AskGenAi.Core.Models;
 
 namespace AskGenAi.Application.UseCases;
 
@@ -9,63 +8,106 @@ namespace AskGenAi.Application.UseCases;
 public class ResponseAiGenerator(
     IChatModelManager chatModelManager,
     IHistoryBuilder historyBuilder,
-    IOnPremisesRepository<DisciplineOnPremises> disciplineOnPremisesRepository,
-    IOnPremisesRepository<QuestionOnPremises> questionOnPremisesRepository,
-    IOnPremisesRepository<ResponseOnPremises> responseOnPremisesRepository,
+    IRepository<Discipline> disciplineRepository,
+    IRepository<Response> responseRepository,
+    IRepository<Question> questionRepository,
     TimeSpan? delayDuration = null)
     : IResponseAiGenerator
 {
     private readonly TimeSpan _delayDuration = delayDuration ?? TimeSpan.FromSeconds(30);
-    
+
     // </inheritdoc>
-    public async Task RunAsync()
+    public async Task RunForAllAsync()
     {
-        // Prepare the chat history. Take all disciplines and all question for it
-        var disciplines = await disciplineOnPremisesRepository.GetAllAsync();
-        var questions = await questionOnPremisesRepository.GetAllAsync();
-        var responses = (await responseOnPremisesRepository.GetAllAsync()).ToArray();
+        // Prepare the chat history. Take all disciplines and all questions for it
+        var disciplines = await disciplineRepository.GetAllAsync(null);
+        var allResponses = (await responseRepository.GetAllAsync(null)).ToDictionary(r => r.QuestionId);
 
-        var group = disciplines.GroupJoin(questions, discipline => discipline.Type, question => question.DisciplineType,
-            (discipline, enumerable) => new { discipline, enumerable });
-
-        // Launch the cycle of questions and clear the history after each discipline change generating new history.
-        foreach (var item in group)
+        foreach (var discipline in disciplines)
         {
-            var discipline = item.discipline;
-            var questionsForDiscipline = item.enumerable;
+            var questionsForDiscipline = discipline.Questions;
 
             // Service to get history template with certain discipline
-            var historySystemMessage =
-                historyBuilder.BuildQuestionHistory(PersonalityHelper.GetPersonality((DisciplineType)discipline.Type),
-                    discipline.Scope, discipline.Title,
-                    discipline.Subtitle);
+            var historySystemMessage = historyBuilder.BuildQuestionHistory(
+                PersonalityHelper.GetPersonality(discipline.Type),
+                discipline.Scope, discipline.Title, discipline.Subtitle);
 
             chatModelManager.AddSystemMessage(historySystemMessage);
 
+            var newDisciplineResponses = new List<Response>();
+
             foreach (var question in questionsForDiscipline)
             {
-                // If the response to the question already exists, skip it
-                if (Array.Exists(responses, r => r.QuestionId == question.Id))
+                if (allResponses.ContainsKey(question.Id))
                 {
                     continue;
                 }
 
-                // Add the question to the chat history and get the response
                 chatModelManager.AddUserMessage(question.Context ?? string.Empty);
                 var result = await chatModelManager.GetChatMessageContentAsync();
 
                 // Save the response to the question
-                await responseOnPremisesRepository.AddAsync(new ResponseOnPremises
+                var response = new Response
                 {
                     Id = Guid.NewGuid(),
-                    DisciplineType = discipline.Type,
-                    Context = result,
-                    QuestionId = question.Id
-                });
+                    QuestionId = question.Id,
+                    Context = result
+                };
+                newDisciplineResponses.Add(response);
 
-                // make calls to the chat completion service to get the response with some delay 40 sec between each question
+                // make calls to the chat completion service to get the response with some delay some sec between each question
                 await Task.Delay(_delayDuration);
             }
+
+            // Save the changes to the database
+            await responseRepository.AddRangeAsync(CancellationToken.None, [.. newDisciplineResponses]);
+            await responseRepository.UnitOfWork.SaveChangesAsync();
+        }
+    }
+
+    // </inheritdoc>
+    public async Task RunForAllWithoutResponseAsync()
+    {
+        var onlyQuestions = await questionRepository.GetAllAsync(r => r.Responses.Count == 0);
+
+        var groupedOnlyQuestions = onlyQuestions.GroupBy(q => q.DisciplineId);
+
+        foreach (var group in groupedOnlyQuestions)
+        {
+            var discipline = await disciplineRepository.GetByIdAsync(group.Key);
+
+            // If discipline is null, skip the group
+            if (discipline == null)
+            {
+                continue;
+            }
+
+            var historySystemMessage = historyBuilder.BuildQuestionHistory(
+                PersonalityHelper.GetPersonality(discipline.Type),
+                discipline.Scope, discipline.Title, discipline.Subtitle);
+
+            chatModelManager.AddSystemMessage(historySystemMessage);
+
+            var newDisciplineResponses = new List<Response>();
+
+            foreach (var question in group)
+            {
+                chatModelManager.AddUserMessage(question.Context ?? string.Empty);
+                var result = await chatModelManager.GetChatMessageContentAsync();
+
+                var response = new Response
+                {
+                    Id = Guid.NewGuid(),
+                    QuestionId = question.Id,
+                    Context = result
+                };
+                newDisciplineResponses.Add(response);
+
+                await Task.Delay(_delayDuration);
+            }
+
+            await responseRepository.AddRangeAsync(CancellationToken.None, [.. newDisciplineResponses]);
+            await responseRepository.UnitOfWork.SaveChangesAsync();
         }
     }
 }
