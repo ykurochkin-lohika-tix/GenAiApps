@@ -6,16 +6,29 @@ namespace AskGenAi.Infrastructure.FileSystem;
 // </inheritdoc>
 public class FilePath : IFilePath
 {
-    public const string Extension = ".json";
+    public const string JsonExtension = ".json";
     public const string DisciplineFilename = "discipline";
     public const string DisciplineFullFilename = "disciplineV1";
     public const string ResponseFullFilename = "response";
     public const string QuestionsFilename = "questions1";
     public const string QuestionsFullFilename = "question";
+    public const string ReportFullFilename = "report";
     public const string FilesPath = "AskGenAi.Infrastructure/Resources/";
 
     // if needed Debug to change path, change it here by removing Split("AskGenAi.Presentation")[0]
     public readonly string LocalPath = AppDomain.CurrentDomain.BaseDirectory.Split("AskGenAi.Presentation")[0];
+
+    // </inheritdoc>
+    public string GetReportPath(string fileName, string fileExtension)
+    {
+        return Path.Combine(LocalPath, FilesPath, fileName + "." + fileExtension);
+    }
+
+    // </inheritdoc>
+    public string GetFullReportPath(string fileExtension)
+    {
+        return Path.Combine(LocalPath, FilesPath, ReportFullFilename + "." + fileExtension);
+    }
 
     // </inheritdoc>
     public string[] GetQuestionsListFilename()
@@ -44,47 +57,47 @@ public class FilePath : IFilePath
     // </inheritdoc>
     public string GetLocalQuestionsFullPath()
     {
-        return Path.Combine(LocalPath, FilesPath, QuestionsFullFilename + Extension);
+        return Path.Combine(LocalPath, FilesPath, QuestionsFullFilename + JsonExtension);
     }
 
     // </inheritdoc>
     public string GetLocalDisciplinesFullPath()
     {
-        return Path.Combine(LocalPath, FilesPath, DisciplineFullFilename + Extension);
+        return Path.Combine(LocalPath, FilesPath, DisciplineFullFilename + JsonExtension);
     }
 
     public string GetLocalResponsesFullPath()
     {
-        return Path.Combine(LocalPath, FilesPath, ResponseFullFilename + Extension);
+        return Path.Combine(LocalPath, FilesPath, ResponseFullFilename + JsonExtension);
     }
 
     // </inheritdoc>
     public string GetLocalDisciplinePath()
     {
-        return Path.Combine(LocalPath, FilesPath, DisciplineFilename + Extension);
+        return Path.Combine(LocalPath, FilesPath, DisciplineFilename + JsonExtension);
     }
 
     // </inheritdoc>
     public string GetLocalNewDisciplinePath(string newVersion)
     {
-        return Path.Combine(LocalPath, FilesPath, DisciplineFilename + "V" + newVersion + Extension);
+        return Path.Combine(LocalPath, FilesPath, DisciplineFilename + "V" + newVersion + JsonExtension);
     }
 
     // </inheritdoc>
     public string GetLocalNewQuestionsPath(string newVersion)
     {
-        return Path.Combine(LocalPath, FilesPath, QuestionsFilename + "V" + newVersion + Extension);
+        return Path.Combine(LocalPath, FilesPath, QuestionsFilename + "V" + newVersion + JsonExtension);
     }
 
     // </inheritdoc>
     public string GetLocalQuestionsPath()
     {
-        return Path.Combine(LocalPath, FilesPath, QuestionsFilename + Extension);
+        return Path.Combine(LocalPath, FilesPath, QuestionsFilename + JsonExtension);
     }
 
     // </inheritdoc>
     public string GetLocalQuestionsPath(string questionsFilename)
     {
-        return Path.Combine(LocalPath, FilesPath, questionsFilename + Extension);
+        return Path.Combine(LocalPath, FilesPath, questionsFilename + JsonExtension);
     }
 }

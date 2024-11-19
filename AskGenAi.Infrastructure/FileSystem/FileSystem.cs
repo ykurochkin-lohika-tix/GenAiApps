@@ -18,4 +18,9 @@ public class FileSystem : IFileSystem
     {
         File.WriteAllText(path, content);
     }
+
+    public Task WriteAllTextAsync(string path, string content)
+    {
+        return File.WriteAllTextAsync(path, content);
+    }
 }

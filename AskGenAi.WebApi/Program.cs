@@ -1,3 +1,5 @@
+using AskGenAi.Application;
+using AskGenAi.Common;
 using AskGenAi.Infrastructure;
 using AskGenAi.WebApi;
 
@@ -12,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddConfiguration()
+    .AddApplicationServices()
+    .AddCommonServices()
     .AddInfrastructureServices()
     .AddWebApiServices();
 

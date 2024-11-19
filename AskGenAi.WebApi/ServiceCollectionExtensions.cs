@@ -30,7 +30,6 @@ public static class ServiceCollectionExtensions
         var serviceProvider = services.BuildServiceProvider();
         var configuration = serviceProvider.GetRequiredService<IConfiguration>();
         var jwtConfigurationSection = configuration.GetSection("Jwt");
-
         services.Configure<JwtSettings>(jwtConfigurationSection);
 
         services.AddDbContext<AppDbContext>(options =>
@@ -53,8 +52,8 @@ public static class ServiceCollectionExtensions
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings!.Issuer,
-                    ValidAudience = jwtSettings!.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings!.Key))
+                    ValidAudience = jwtSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
                 };
             });
         

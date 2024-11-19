@@ -188,7 +188,7 @@ public class UserRepositoryTest
         await _userRepository.AddAsync(user2);
         await _userRepository.UnitOfWork.SaveChangesAsync();
 
-        var projectedUsers = (await _userRepository.GetProjectedAsync(u => new { u.Email })).ToArray();
+        var projectedUsers = (await _userRepository.GetAllProjectedAsync(u => new { u.Email })).ToArray();
 
         Assert.Equal(2, projectedUsers.Length);
         Assert.Contains(projectedUsers, u => u.Email == "user1@example.com");
