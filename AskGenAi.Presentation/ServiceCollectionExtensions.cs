@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AskGenAi.Infrastructure.ApplicationDbContext;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AskGenAi.Presentation;
@@ -14,6 +16,9 @@ public static class ServiceCollectionExtensions
             .Build();
 
         services.AddSingleton<IConfiguration>(configuration);
+        
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(configuration["SqlDatabase:ConnectionStrings:DefaultConnection"]));
 
         return services;
     }

@@ -79,7 +79,7 @@ public class Repository<T>(AppDbContext context) : IRepository<T> where T : clas
             : await DbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<TResult>> GetProjectedAsync<TResult>(
+    public async Task<IEnumerable<TResult>> GetAllProjectedAsync<TResult>(
         Expression<Func<T, TResult>> selector,
         CancellationToken cancellationToken = default)
     {

@@ -22,3 +22,12 @@ Content-Type: application/json
 GET {{AskGenAi.WebApi_HostAddress}}/weatherforecast/
 Accept: application/json
 Authorization: Bearer {{AuthToken}}
+
+### report/generate-docx
+GET {{AskGenAi.WebApi_HostAddress}}/api/report/generate-docx
+
+### report/generate-md
+GET {{AskGenAi.WebApi_HostAddress}}/api/report/generate-md
+
+### report/generate-txt
+GET {{AskGenAi.WebApi_HostAddress}}/api/report/generate-txt

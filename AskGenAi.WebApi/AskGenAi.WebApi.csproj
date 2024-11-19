@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AskGenAi.Application\AskGenAi.Application.csproj" />
     <ProjectReference Include="..\AskGenAi.Core\AskGenAi.Core.csproj" />
     <ProjectReference Include="..\AskGenAi.Infrastructure\AskGenAi.Infrastructure.csproj" />
   </ItemGroup>

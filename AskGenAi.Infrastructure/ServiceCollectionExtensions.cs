@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AskGenAi.Core.Entities;
 using AskGenAi.Core.Interfaces;
-using AskGenAi.Infrastructure.ApplicationDbContext;
 using AskGenAi.Infrastructure.AIServices;
 using AskGenAi.Infrastructure.FileSystem;
 using AskGenAi.Infrastructure.Persistence;
@@ -17,20 +15,15 @@ public static class ServiceCollectionExtensions
         // Get the configuration from the service collection
         var serviceProvider = services.BuildServiceProvider();
         var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-
         // Bind AzureOpenAI settings
         services.Configure<AzureOpenAiSettings>(configuration.GetSection("AzureOpenAI"));
 
+        // Add services to the container
         services.AddScoped<IChatModelManager, AzureOpenAiChatCompletion>();
-
         services.AddSingleton<IFilePath, FilePath>();
         services.AddSingleton<IFileSystem, FileSystem.FileSystem>();
-
+        services.AddScoped<IReportGenerator, ReportGenerator.ReportGenerator>();
         services.AddScoped(typeof(IOnPremisesRepository<>), typeof(FileRepository<>));
-        //services.AddScoped(typeof(IOnPremisesRepository<>), typeof(InMemoryRepository<>));
-
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(configuration["SqlDatabase:ConnectionStrings:DefaultConnection"]));
 
         services.AddScoped<IRepository<User>, Repository<User>>();
         services.AddScoped<IRepository<Role>, Repository<Role>>();

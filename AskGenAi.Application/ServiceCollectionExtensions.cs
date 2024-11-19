@@ -14,7 +14,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddAutoMapper(typeof(MappingProfile));
 
-        services.AddScoped<IDataTransfer<DisciplineOnPremises, Discipline>, DataTransfer<DisciplineOnPremises, Discipline>>();
+        services
+            .AddScoped<IDataTransfer<DisciplineOnPremises, Discipline>,
+                DataTransfer<DisciplineOnPremises, Discipline>>();
         services.AddScoped<IDataTransfer<QuestionOnPremises, Question>, DataTransfer<QuestionOnPremises, Question>>();
         services.AddScoped<IDataTransfer<ResponseOnPremises, Response>, DataTransfer<ResponseOnPremises, Response>>();
 
@@ -25,6 +27,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IResponseAiGenerator, ResponseAiGenerator>();
         //services.AddScoped<IResponseAiGenerator, LocalResponseAiGenerator>();
         services.AddScoped<IDataTransferExecutor, DataTransferExecutor>();
+        services.AddScoped<IReportGeneratorHandler, ReportGeneratorHandler>();
 
         return services;
     }

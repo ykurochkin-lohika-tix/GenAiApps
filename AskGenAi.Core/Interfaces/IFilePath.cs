@@ -67,4 +67,19 @@ public interface IFilePath
     /// <param name="type"></param>
     /// <returns></returns>
     string GetLocalFullPathByType(Type type);
+
+    /// <summary>
+    /// Gets the report path
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="fileExtension"></param>
+    /// <returns></returns>
+    string GetReportPath(string fileName, string fileExtension);
+
+    /// <summary>
+    /// Gets the full report path
+    /// </summary>
+    /// <param name="fileExtension"></param>
+    /// <returns></returns>
+    string GetFullReportPath(string fileExtension);
 }
